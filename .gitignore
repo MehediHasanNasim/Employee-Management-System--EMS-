@@ -1,0 +1,38 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual env
+.venv/
+venv/
+ENV/
+
+# Django stuff:
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# env files
+.env 
+
+# Python packaging
+dist/
+build/
+
+# Pytest / coverage
+htmlcov/
+.coverage
+.pytest_cache/
+
+
