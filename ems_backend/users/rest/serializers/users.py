@@ -2,6 +2,7 @@ from rest_framework import serializers
 from users.models import User, Team, UserRole
 from core.choices import Status
 
+
 class UserRoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserRole
@@ -12,6 +13,12 @@ class TeamSerializer(serializers.ModelSerializer):
         model = Team
         fields = ['id', 'alias', 'name', 'description', 'team_lead']
 
+    def validate_team_lead(self, value):
+        # Validate that team lead has appropriate role
+        if value and value.role.name != 'Team Lead':
+            raise serializers.ValidationError("Team lead must have 'Team Lead' role")
+        return value
+    
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     
@@ -30,6 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Email must contain 'riseuplabs'")
         return value
     
+    
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         user = User(**validated_data)
@@ -46,3 +54,5 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+    
+
