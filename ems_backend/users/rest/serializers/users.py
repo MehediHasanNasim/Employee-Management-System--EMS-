@@ -37,6 +37,14 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Email must contain 'riseuplabs'")
         return value
     
+    def validate(self, data):
+        role = data.get('role')
+        team = data.get('team')
+        
+        if role and role.name == 'Employee' and not team:
+            raise serializers.ValidationError("Employees must belong to a team")
+        
+        return data
     
     def create(self, validated_data):
         password = validated_data.pop('password', None)

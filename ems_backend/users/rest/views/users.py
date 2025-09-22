@@ -25,6 +25,12 @@ class UserRoleListCreateView(ActiveQuerysetMixin, generics.ListCreateAPIView):
     serializer_class = UserRoleSerializer
     permission_classes = [IsHR]
 
+    # Filtering, Searching, Ordering
+    filterset_fields = ["name", "status"]
+    search_fields = ["name"]
+    ordering_fields = ["name", "created_at"]
+
+
 class UserRoleRetrieveUpdateDestroyView(ActiveQuerysetMixin, SoftDeleteMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = UserRole.objects.all()
     serializer_class = UserRoleSerializer
@@ -37,6 +43,10 @@ class TeamListCreateView(ActiveQuerysetMixin, generics.ListCreateAPIView):
     serializer_class = TeamSerializer
     permission_classes = [TeamPermissions]
 
+    filterset_fields = ["name", "status"]
+    search_fields = ["name"]
+    ordering_fields = ["name", "created_at"]
+    ordering = ["name"]
 
 class TeamRetrieveUpdateDestroyView(ActiveQuerysetMixin, SoftDeleteMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = Team.objects.all()
@@ -49,6 +59,12 @@ class UserListCreateView(ActiveQuerysetMixin, generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [UserPermissions]
+
+    filterset_fields = ["username", "email", "role", "team"]
+    search_fields = ["username", "email", "first_name", "last_name"]
+    ordering_fields = ["username", "email", "created_at"]
+    ordering = ["username"]
+
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -82,6 +98,10 @@ class UserTeamListView(ActiveQuerysetMixin, generics.ListAPIView):
     serializer_class = UserSerializer
     permission_classes = [UserPermissions]
 
+    filterset_fields = ["username", "email", "role"]
+    search_fields = ["username", "email", "first_name", "last_name"]
+    ordering_fields = ["username", "email", "created_at"]
+    ordering = ["username"]
 
     def get_queryset(self):
         team_id = self.kwargs['team_id']

@@ -171,13 +171,14 @@ class LeaveRequestPermissions(permissions.BasePermission):
             return True
 
         role = get_user_role_name(request.user)
-        action = get_action(request, view)
+        # action = get_action(request, view)
+        method = request.method  # GET, POST, etc.
 
         if role == "HR":
             return True
-        if role == "Team Lead" and action in ["list", "create"]:
+        if role == "Team Lead" and method in ["GET", "POST"]:
             return True
-        if role == "Employee" and action in ["list", "create"]:
+        if role == "Employee" and method in ["GET", "POST"]:
             return True
 
         return False
@@ -199,7 +200,7 @@ class LeaveRequestPermissions(permissions.BasePermission):
 
         # Employees can only view their own requests
         if role == "Employee" and obj.employee == request.user:
-            return action == "retrieve"
+            return action in ["retrieve", "list"]
 
         return False
     

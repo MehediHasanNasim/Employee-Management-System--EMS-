@@ -1,4 +1,5 @@
 from django.urls import path
+from leaves.rest.views.approval_views import approve_leave, withdraw_leave_view
 from leaves.rest.views.leaves import (
     LeaveTypeListCreateView, LeaveTypeRetrieveUpdateDestroyView,
     LeaveAllocationListCreateView, LeaveAllocationRetrieveUpdateDestroyView,
@@ -8,7 +9,6 @@ from leaves.rest.views.leaves import (
     LeaveRequestApprovalListView, UserGivenApprovalsListView,
 
 )
-
 
 urlpatterns = [
     # LeaveType endpoints
@@ -30,5 +30,9 @@ urlpatterns = [
     path('approvals/<int:pk>/', LeaveApprovalRetrieveUpdateDestroyView.as_view(), name='leave-approval-detail'),
     path('requests/<int:leave_request_id>/approvals/', LeaveRequestApprovalListView.as_view(), name='leave-request-approvals'),
     path('users/<int:user_id>/given-approvals/', UserGivenApprovalsListView.as_view(), name='user-given-approvals'),
+
+    # Approval actions
+    path('requests/<int:pk>/approve/', approve_leave, name='leave-approve'),
+    path('requests/<int:pk>/withdraw/', withdraw_leave_view, name='leave-withdraw'),
 ]
 
