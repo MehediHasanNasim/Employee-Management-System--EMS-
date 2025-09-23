@@ -30,8 +30,6 @@ DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
 
-# Application definition
-
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
